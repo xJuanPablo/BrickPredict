@@ -1,10 +1,15 @@
-from flask import Blueprint, jsonify, render_template, request
+import os
+from flask import Blueprint, render_template, request
+import joblib
 
 bp = Blueprint("main", __name__)
 
+model_path = os.path.join(os.path.dirname(__file__), "model.pkl")
+model = joblib.load(model_path)
+
 @bp.route("/")
 def home():
-    return jsonify({"message": "welcome to Brick Predict"})
+    return render_template("home.html")
 
 @bp.route("/predict", methods=["GET", "POST"])
 def predict():
@@ -12,10 +17,10 @@ def predict():
     
     if request.method == "POST":
         sqft = request.form.get("sqft")
-        if sqft and sqft.isdigit:
-            sqft = int(sqft)
-            prediction = sqft * 200
-        else:
+        try:
+            sqft_val = float(sqft)
+            prediction = model.predict([[sqft_val]])[0]
+        except ValueError:
             prediction = "Invalid input. Please enter a number."
         
-    return render_template("predict.html", prediction = prediction)
+    return render_template("predict.html", prediction=prediction)
