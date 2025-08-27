@@ -16,10 +16,12 @@ def predict():
     prediction = None
     
     if request.method == "POST":
-        sqft = request.form.get("sqft")
         try:
-            sqft_val = float(sqft)
-            prediction = model.predict([[sqft_val]])[0]
+            sqft_val = float(request.form.get("sqft"))
+            bedrooms = float(request.form.get("bedrooms"))
+            bathrooms = float(request.form.get("bathrooms"))
+            condition = float(request.form.get("condition"))
+            prediction = model.predict([[sqft_val, bedrooms, bathrooms, condition]])[0]
         except ValueError:
             prediction = "Invalid input. Please enter a number."
         
