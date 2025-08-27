@@ -8,12 +8,12 @@ data_path = os.path.join(BASE_DIR, "data", "kc_house_data.csv")
 
 data = pd.read_csv(data_path)
 
-x = data[['sqft_living']]
+x = data[['sqft_living', 'bedrooms', 'bathrooms', 'condition']]
 y = data['price']
 
 model = LinearRegression()
 model.fit(x, y)
 
 model_path = os.path.join(BASE_DIR, "app", "model.pkl")
-joblib.dump(model, "app/model.pkl")
+joblib.dump(model, model_path)
 print(f"Model saved to {model_path}")
