@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "scripts": {
+    "dev": "concurrently \"cd backend && venv\\Scripts\\python run.py\" \"cd frontend && npm start\""
+
+  }
+}
