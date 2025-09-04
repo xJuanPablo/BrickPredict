@@ -6,15 +6,28 @@ const Prediction: React.FC = () => {
     const [condition, setCondition] = useState("");
     const [prediction, setPrediction] = useState<string | null>(null);
 
-    const handleSubmit = async (e: React.FocusEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const res = await fetch("http://127.0.0.1:5000/predict", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sqft, bedrooms, bathrooms, condition})
-        });
-        const data = await res.json();
-        setPrediction(data.prediction ?? data.console.error)
+        try {
+            const res = await fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    sqft, 
+                    bedrooms, 
+                    bathrooms, 
+                    condition
+                })
+            });
+    
+            if (!res.ok) {
+                throw new Error(`status: ${res.status}`)
+            }
+            const data = await res.json();
+            setPrediction(data.prediction ?? data.console.error)
+        } catch (err) {
+            console.error("Error:", err)
+        }
     }
 
   return (
