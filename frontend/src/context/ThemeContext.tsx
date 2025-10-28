@@ -1,9 +1,8 @@
 import { createContext, useState, ReactNode, useEffect } from 'react';
 
-function ThemeContext() {
-  return (
-    <div>ThemeContext</div>
-  )
+type ThemeContextType = {
+  theme: string,
+  toggleTheme: () => void;
 }
 
-export default ThemeContext
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
