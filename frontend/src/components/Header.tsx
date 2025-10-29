@@ -1,6 +1,11 @@
+import ThemeToggle from "./ThemeToggle";
+
 const Header: React.FC = () => {
   return (
-    <div>Header</div>
+    <header className="d-flex justify-content-around align-items-center">
+      <div>BrickPredict</div>
+      <ThemeToggle />
+    </header>
   )
 }
 
